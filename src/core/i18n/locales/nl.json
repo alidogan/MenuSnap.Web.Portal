@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "tenants": "Tenants"
+  },
+  "tenants": {
+    "title": "Tenants",
+    "new": "Nieuw",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "deleteConfirm": "Weet je zeker dat je deze tenant wilt verwijderen?",
+    "search": "Zoeken...",
+    "name": "Naam",
+    "slug": "Slug",
+    "logoUrl": "Logo URL",
+    "isActive": "Actief",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "createTitle": "Tenant aanmaken",
+    "editTitle": "Tenant bewerken",
+    "validation": {
+      "nameRequired": "Naam is verplicht",
+      "slugRequired": "Slug is verplicht",
+      "slugFormat": "Slug mag alleen kleine letters, cijfers en koppeltekens bevatten"
+    },
+    "columns": {
+      "name": "Naam",
+      "slug": "Slug",
+      "logoUrl": "Logo URL",
+      "isActive": "Actief",
+      "actions": "Acties"
+    }
+  },
+  "common": {
+    "yes": "Ja",
+    "no": "Nee",
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "success": "Succesvol opgeslagen"
+  }
+}

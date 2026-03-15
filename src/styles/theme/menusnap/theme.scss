@@ -1,0 +1,13 @@
+// MenuSnap Portal primary brand color
+$primaryColor: #e85d04;
+
+$primaryLightColor: #f4a261 !default;
+$primaryDarkColor: #c44d04 !default;
+$primaryDarkerColor: #a33f03 !default;
+$primaryTextColor: #ffffff;
+
+$highlightBg: #fff3ec;
+$highlightTextColor: $primaryDarkerColor;
+
+@import '../variables';
+@import '../../../../public/theme/theme-base/components';
