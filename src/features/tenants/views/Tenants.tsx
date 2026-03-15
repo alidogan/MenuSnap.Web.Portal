@@ -111,7 +111,7 @@ export default function Tenants() {
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <MenusnapCard hasCardToolbar>
+      <MenusnapCard>
         <MenusnapDataTable
           columns={columns}
           value={filteredTenants}
