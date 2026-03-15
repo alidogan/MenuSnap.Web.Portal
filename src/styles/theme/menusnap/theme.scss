@@ -1,13 +1,13 @@
-// MenuSnap Portal primary brand color
 $primaryColor: #e85d04;
 
-$primaryLightColor: #f4a261 !default;
-$primaryDarkColor: #c44d04 !default;
-$primaryDarkerColor: #a33f03 !default;
+$primaryLightColor: #f5c4a8 !default;
+$primaryDarkColor: #d45203 !default;
+$primaryDarkerColor: #ba4702 !default;
 $primaryTextColor: #ffffff;
 
-$highlightBg: #fff3ec;
+$highlightBg: #fef3ed;
 $highlightTextColor: $primaryDarkerColor;
 
-@import '../variables';
-@import '../../../../public/theme/theme-base/components';
+@import '../../../core/layouts/PrivateAppLayout/styles/theme/theme-light/variables';
+@import '../../../core/layouts/PrivateAppLayout/styles/theme/theme-base/components';
+@import '../../../core/layouts/PrivateAppLayout/styles/theme/theme-light/extensions';
