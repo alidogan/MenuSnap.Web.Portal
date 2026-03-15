@@ -33,7 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   return (
     <div className={className}>
       <IconField iconPosition="left" className={searchClassName}>
-        <InputIcon className="pi pi-search" />
+        {/* <InputIcon className="pi pi-search" /> */}
         <InputText
           value={value}
           onChange={(e) => onChange(e.target.value)}

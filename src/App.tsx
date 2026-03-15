@@ -5,6 +5,7 @@ import { PrimeReactProvider } from 'primereact/api'
 import { queryClient } from '@/core/config/queryClient'
 import { routeTree } from './routeTree.gen'
 import { LayoutProvider } from '@/core/layouts/PrivateAppLayout/layoutContext'
+import { DialogProvider } from '@/shared/components/Dialog'
 
 const router = createRouter({ routeTree })
 
@@ -19,7 +20,9 @@ export default function App() {
     <PrimeReactProvider>
       <QueryClientProvider client={queryClient}>
         <LayoutProvider>
-          <RouterProvider router={router} />
+          <DialogProvider>
+            <RouterProvider router={router} />
+          </DialogProvider>
         </LayoutProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
