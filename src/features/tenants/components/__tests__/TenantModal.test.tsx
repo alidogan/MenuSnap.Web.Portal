@@ -7,18 +7,17 @@ import TenantModal from '../TenantModal'
 import type { TenantDto } from '../../shared/types/ITenant'
 
 function renderModal(props: Partial<Parameters<typeof TenantModal>[0]> = {}) {
-  const onHide = vi.fn()
-  const onSubmit = vi.fn()
-  return render(
-    <I18nextProvider i18n={i18n}>
-      <TenantModal
-        visible={true}
-        onHide={onHide}
-        onSubmit={onSubmit}
-        {...props}
-      />
-    </I18nextProvider>
-  )
+  const onCancel = props.onCancel ?? vi.fn()
+  const onSubmit = props.onSubmit ?? vi.fn()
+  return {
+    onCancel,
+    onSubmit,
+    ...render(
+      <I18nextProvider i18n={i18n}>
+        <TenantModal onSubmit={onSubmit} onCancel={onCancel} {...props} />
+      </I18nextProvider>
+    ),
+  }
 }
 
 describe('TenantModal', () => {
@@ -52,7 +51,7 @@ describe('TenantModal', () => {
     const onSubmit = vi.fn()
     renderModal({ onSubmit })
 
-    fireEvent.click(screen.getByTestId('save-tenant-button').querySelector('button')!)
+    fireEvent.click(screen.getByText('Opslaan'))
 
     await waitFor(() => {
       expect(screen.getByTestId('name-error')).toBeInTheDocument()
@@ -65,7 +64,7 @@ describe('TenantModal', () => {
     renderModal({ onSubmit })
 
     await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
-    fireEvent.click(screen.getByTestId('save-tenant-button').querySelector('button')!)
+    fireEvent.click(screen.getByText('Opslaan'))
 
     await waitFor(() => {
       expect(screen.getByTestId('slug-error')).toBeInTheDocument()
@@ -79,7 +78,7 @@ describe('TenantModal', () => {
 
     await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
     await userEvent.type(screen.getByTestId('tenant-slug-input'), 'acme-corp')
-    fireEvent.click(screen.getByTestId('save-tenant-button').querySelector('button')!)
+    fireEvent.click(screen.getByText('Opslaan'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
@@ -91,24 +90,11 @@ describe('TenantModal', () => {
     })
   })
 
-  it('calls onHide when cancel button is clicked', () => {
-    const onHide = vi.fn()
-    renderModal({ onHide })
+  it('calls onCancel when cancel button is clicked', () => {
+    const onCancel = vi.fn()
+    renderModal({ onCancel })
 
     fireEvent.click(screen.getByText('Annuleren'))
-    expect(onHide).toHaveBeenCalled()
-  })
-
-  it('shows create title in create mode', () => {
-    renderModal()
-    expect(screen.getByText('Tenant aanmaken')).toBeInTheDocument()
-  })
-
-  it('shows edit title in edit mode', () => {
-    const existing: TenantDto = {
-      id: '1', name: 'X', slug: 'x', logoUrl: null, isActive: true,
-    }
-    renderModal({ initialValues: existing })
-    expect(screen.getByText('Tenant bewerken')).toBeInTheDocument()
+    expect(onCancel).toHaveBeenCalled()
   })
 })

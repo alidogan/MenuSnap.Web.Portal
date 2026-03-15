@@ -10,6 +10,7 @@ interface TenantModalProps {
   onSubmit: (values: TenantFormValues) => Promise<void>
   initialValues?: TenantDto
   isSubmitting?: boolean
+  onCancel?: () => void
 }
 
 interface FormErrors {
@@ -21,9 +22,11 @@ export default function TenantModal({
   onSubmit,
   initialValues,
   isSubmitting = false,
+  onCancel,
 }: TenantModalProps) {
   const { t } = useTranslation()
-  const close = useCloseLastModal()
+  const contextClose = useCloseLastModal()
+  const close = onCancel ?? contextClose
 
   const [name, setName] = useState(initialValues?.name ?? '')
   const [slug, setSlug] = useState(initialValues?.slug ?? '')

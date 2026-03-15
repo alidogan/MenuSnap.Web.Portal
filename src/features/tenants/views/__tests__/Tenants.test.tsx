@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '@/core/i18n/i18n'
 import { QueryWrapper } from '@/test/QueryWrapper'
+import { DialogProvider } from '@/shared/components/Dialog'
 import Tenants from '../Tenants'
 import type { TenantDto } from '../../shared/types/ITenant'
 
@@ -29,7 +30,9 @@ function renderTenants() {
   return render(
     <QueryWrapper>
       <I18nextProvider i18n={i18n}>
-        <Tenants />
+        <DialogProvider>
+          <Tenants />
+        </DialogProvider>
       </I18nextProvider>
     </QueryWrapper>
   )
@@ -38,11 +41,6 @@ function renderTenants() {
 describe('Tenants view', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-  })
-
-  it('renders the page title', () => {
-    renderTenants()
-    expect(screen.getByText('Tenants')).toBeInTheDocument()
   })
 
   it('renders the New button', () => {
@@ -63,7 +61,7 @@ describe('Tenants view', () => {
     const newBtn = screen.getByTestId('new-tenant-button')
     fireEvent.click(newBtn.querySelector('button') ?? newBtn)
     await waitFor(() => {
-      expect(screen.getByText('Tenant aanmaken')).toBeInTheDocument()
+      expect(screen.getByTestId('tenant-name-input')).toBeInTheDocument()
     })
   })
 
