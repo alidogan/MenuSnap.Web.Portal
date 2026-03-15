@@ -20,6 +20,7 @@
     "@tanstack/react-router": "^1.167.1",
     "@tanstack/zod-form-adapter": "^0.42.1",
     "axios": "^1.13.6",
+    "clsx": "^2.1.1",
     "i18next": "^25.8.18",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",

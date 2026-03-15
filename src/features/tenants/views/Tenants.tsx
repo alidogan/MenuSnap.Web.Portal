@@ -1,8 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { DataTable } from 'primereact/datatable'
-import { Column } from 'primereact/column'
+import { useRef, useState } from 'react'
 import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
 import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog'
 import { Toast } from 'primereact/toast'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +8,9 @@ import { useCreateTenantMutation, useDeleteTenantMutation, useUpdateTenantMutati
 import { useTenantsColumns } from '../hooks/useTenantsColumns'
 import TenantModal from '../components/TenantModal'
 import type { TenantDto, TenantFormValues } from '../shared/types/ITenant'
+import { MenusnapCard } from '@/shared/components/MenusnapCard'
+import { MenusnapDataTable, TableToolbar } from '@/shared/components/DataTable'
+import { SearchInput } from '@/shared/components/SearchInput'
 
 export default function Tenants() {
   const { t } = useTranslation()
@@ -72,48 +72,47 @@ export default function Tenants() {
       )
     : tenants
 
+  const toolbar = (
+    <TableToolbar
+      leftElements={
+        <SearchInput
+          value={searchValue}
+          onChange={setSearchValue}
+          showClearFilters={false}
+          placeholder={t('tenants.search')}
+        />
+      }
+      rightElements={
+        <Button
+          label={t('tenants.new')}
+          icon="pi pi-plus"
+          onClick={handleNew}
+          data-testid="new-tenant-button"
+        />
+      }
+    />
+  )
+
   return (
-    <div className="tenants-page">
+    <>
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <div className="tenants-page__header">
-        <h1 className="tenants-page__title">{t('tenants.title')}</h1>
-        <div className="tenants-page__toolbar">
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder={t('tenants.search')}
-              aria-label={t('tenants.search')}
-            />
-          </span>
-          <span data-testid="new-tenant-button">
-            <Button
-              label={t('tenants.new')}
-              icon="pi pi-plus"
-              onClick={handleNew}
-            />
-          </span>
-        </div>
-      </div>
-
-      <DataTable
-        value={filteredTenants}
-        loading={isLoading}
-        lazy
-        paginator
-        rows={pageSize}
-        totalRecords={totalCount}
-        onPage={(e) => setPage(e.page ?? 0)}
-        emptyMessage={t('common.loading')}
-        data-testid="tenants-table"
-      >
-        {columns.map((col, idx) => (
-          <Column key={String(col.field ?? col.header ?? idx)} {...col} />
-        ))}
-      </DataTable>
+      <MenusnapCard hasCardToolbar>
+        <MenusnapDataTable
+          columns={columns}
+          value={filteredTenants}
+          loading={isLoading}
+          lazy
+          paginator
+          rows={pageSize}
+          totalRecords={totalCount}
+          onPage={(e) => setPage(e.page ?? 0)}
+          header={toolbar}
+          hasCardToolbar
+          data-testid="tenants-table"
+        />
+      </MenusnapCard>
 
       <TenantModal
         visible={modalVisible}
@@ -122,6 +121,6 @@ export default function Tenants() {
         initialValues={editingTenant}
         isSubmitting={isSubmitting}
       />
-    </div>
+    </>
   )
 }

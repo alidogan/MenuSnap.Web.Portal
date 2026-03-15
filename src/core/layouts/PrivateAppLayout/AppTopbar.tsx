@@ -1,6 +1,7 @@
 import AppBreadcrumb from '@/core/layouts/PrivateAppLayout/AppBreadCrumb'
 import { LayoutContext } from '@/core/layouts/PrivateAppLayout/layoutContext'
 import type { AppTopbarRef } from '@/core/layouts/PrivateAppLayout/types'
+import menusnapLogo from '@/assets/menusnap-logo.png'
 import { Link } from '@tanstack/react-router'
 import React, { useContext, useImperativeHandle, useRef } from 'react'
 
@@ -15,9 +16,7 @@ const AppTopbar = ({ ref }: { ref?: React.Ref<AppTopbarRef> }) => {
   return (
     <div className="layout-topbar">
       <Link to="/" className="app-logo">
-        <span style={{ fontWeight: 700, fontSize: '1.25rem', color: 'inherit' }}>
-          MenuSnap
-        </span>
+        <img src={menusnapLogo} alt="MenuSnap" style={{ height: '2rem', width: 'auto' }} />
       </Link>
 
       <AppBreadcrumb />
