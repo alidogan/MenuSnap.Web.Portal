@@ -15,8 +15,11 @@ const AppTopbar = ({ ref }: { ref?: React.Ref<AppTopbarRef> }) => {
 
   return (
     <div className="layout-topbar">
-      <Link to="/" className="app-logo">
+      <Link to="/" className="app-logo" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem', marginTop: '1rem' }}>
         <img src={menusnapLogo} alt="MenuSnap" style={{ height: '2rem', width: 'auto' }} />
+        <div style={{ fontWeight: 600, fontSize: '0.75rem', letterSpacing: '0.04em', whiteSpace: 'nowrap', color: 'var(--v-menuitem-text-color)' }}>
+          MenuSnap
+        </div>
       </Link>
 
       <AppBreadcrumb />

@@ -195,6 +195,7 @@ const Layout = (props: ChildContainerProps) => {
           className="layout-sidebar"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
+          style={{ marginTop: '1rem' }}
         >
           <AppSidebar />
         </div>
