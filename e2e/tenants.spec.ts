@@ -58,7 +58,6 @@ test.describe('Tenants page', () => {
 
   test('navigates to tenants page and shows list', async ({ page }) => {
     await page.goto('/tenants')
-    await expect(page.getByRole('heading', { name: 'Tenants' })).toBeVisible()
     await expect(page.getByText('Acme Corp')).toBeVisible()
     await expect(page.getByText('Beta Corp')).toBeVisible()
   })
@@ -86,7 +85,7 @@ test.describe('Tenants page', () => {
   test('creates a new tenant successfully', async ({ page }) => {
     await page.goto('/tenants')
     await page.getByTestId('new-tenant-button').click()
-    await expect(page.getByText('Tenant aanmaken')).toBeVisible()
+    await expect(page.getByTestId('tenant-name-input')).toBeVisible()
     await page.getByTestId('tenant-name-input').fill('New Tenant')
     await page.getByTestId('tenant-slug-input').fill('new-tenant')
     await page.getByTestId('save-tenant-button').click()

@@ -35,13 +35,23 @@ export interface DeleteTenantResponse {
   isSuccess: boolean
 }
 
+export const TenantNameSchema = z.string().min(1, 'tenants.validation.nameRequired')
+
+export const TenantSlugSchema = z
+  .string()
+  .min(1, 'tenants.validation.slugRequired')
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'tenants.validation.slugFormat')
+
+export const TenantLogoUrlSchema = z
+  .string()
+  .refine((v) => v === '' || z.url().safeParse(v).success, 'tenants.validation.logoUrlFormat')
+  .nullable()
+  .optional()
+
 export const TenantSchema = z.object({
-  name: z.string().min(1, 'tenants.validation.nameRequired'),
-  slug: z
-    .string()
-    .min(1, 'tenants.validation.slugRequired')
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'tenants.validation.slugFormat'),
-  logoUrl: z.string().url().nullable().or(z.literal('')).optional(),
+  name: TenantNameSchema,
+  slug: TenantSlugSchema,
+  logoUrl: TenantLogoUrlSchema,
   isActive: z.boolean(),
 })
 

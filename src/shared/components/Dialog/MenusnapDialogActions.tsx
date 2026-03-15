@@ -10,6 +10,7 @@ export interface MenusnapDialogActionsProps {
   loading?: boolean
   submitDisabled?: boolean
   hideSubmit?: boolean
+  submitDataTestId?: string
 
   onCancel?: () => void
   cancelLabel?: string
@@ -27,6 +28,7 @@ const MenusnapDialogActions: FC<MenusnapDialogActionsProps> = ({
   loading = false,
   submitDisabled = false,
   hideSubmit = false,
+  submitDataTestId,
 
   onCancel,
   cancelLabel,
@@ -58,6 +60,7 @@ const MenusnapDialogActions: FC<MenusnapDialogActionsProps> = ({
           onClick={onSubmit}
           loading={loading}
           disabled={submitDisabled || loading}
+          data-testid={submitDataTestId}
         />
       )}
     </div>

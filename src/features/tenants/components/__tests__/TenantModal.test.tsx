@@ -47,24 +47,57 @@ describe('TenantModal', () => {
     expect(screen.getByTestId('tenant-logourl-input')).toHaveValue('https://logo.com')
   })
 
-  it('shows validation error when Name is empty on submit', async () => {
-    const onSubmit = vi.fn()
-    renderModal({ onSubmit })
+  it('shows name validation error while typing then clearing', async () => {
+    renderModal()
 
-    fireEvent.click(screen.getByText('Opslaan'))
+    await userEvent.type(screen.getByTestId('tenant-name-input'), 'a')
+    await userEvent.clear(screen.getByTestId('tenant-name-input'))
 
     await waitFor(() => {
       expect(screen.getByTestId('name-error')).toBeInTheDocument()
     })
+  })
+
+  it('shows slug validation error while typing then clearing', async () => {
+    renderModal()
+
+    await userEvent.type(screen.getByTestId('tenant-slug-input'), 'a')
+    await userEvent.clear(screen.getByTestId('tenant-slug-input'))
+
+    await waitFor(() => {
+      expect(screen.getByTestId('slug-error')).toBeInTheDocument()
+    })
+  })
+
+  it('shows slug format validation error for invalid slug', async () => {
+    renderModal()
+
+    await userEvent.type(screen.getByTestId('tenant-slug-input'), 'Invalid Slug!')
+
+    await waitFor(() => {
+      expect(screen.getByTestId('slug-error')).toBeInTheDocument()
+    })
+  })
+
+  it('shows validation errors on submit with empty required fields', async () => {
+    const onSubmit = vi.fn()
+    renderModal({ onSubmit })
+
+    fireEvent.click(screen.getByTestId('save-tenant-button'))
+
+    await waitFor(() => {
+      expect(screen.getByTestId('name-error')).toBeInTheDocument()
+      expect(screen.getByTestId('slug-error')).toBeInTheDocument()
+    })
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('shows validation error when Slug is empty on submit', async () => {
+  it('does not call onSubmit when only name is filled', async () => {
     const onSubmit = vi.fn()
     renderModal({ onSubmit })
 
     await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
-    fireEvent.click(screen.getByText('Opslaan'))
+    fireEvent.click(screen.getByTestId('save-tenant-button'))
 
     await waitFor(() => {
       expect(screen.getByTestId('slug-error')).toBeInTheDocument()
@@ -73,12 +106,12 @@ describe('TenantModal', () => {
   })
 
   it('calls onSubmit with correct data when form is valid', async () => {
-    const onSubmit = vi.fn()
+    const onSubmit = vi.fn().mockResolvedValue(undefined)
     renderModal({ onSubmit })
 
     await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
     await userEvent.type(screen.getByTestId('tenant-slug-input'), 'acme-corp')
-    fireEvent.click(screen.getByText('Opslaan'))
+    fireEvent.click(screen.getByTestId('save-tenant-button'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
@@ -90,11 +123,40 @@ describe('TenantModal', () => {
     })
   })
 
+  it('calls onSubmit with logoUrl when provided', async () => {
+    const onSubmit = vi.fn().mockResolvedValue(undefined)
+    renderModal({ onSubmit })
+
+    await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
+    await userEvent.type(screen.getByTestId('tenant-slug-input'), 'acme-corp')
+    await userEvent.type(screen.getByTestId('tenant-logourl-input'), 'https://logo.com')
+    fireEvent.click(screen.getByTestId('save-tenant-button'))
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ logoUrl: 'https://logo.com' })
+      )
+    })
+  })
+
   it('calls onCancel when cancel button is clicked', () => {
     const onCancel = vi.fn()
     renderModal({ onCancel })
 
     fireEvent.click(screen.getByText('Annuleren'))
     expect(onCancel).toHaveBeenCalled()
+  })
+
+  it('clears name error after typing valid value', async () => {
+    renderModal()
+
+    // Trigger error by typing then clearing
+    await userEvent.type(screen.getByTestId('tenant-name-input'), 'a')
+    await userEvent.clear(screen.getByTestId('tenant-name-input'))
+    await waitFor(() => expect(screen.getByTestId('name-error')).toBeInTheDocument())
+
+    // Typing a valid value clears the error
+    await userEvent.type(screen.getByTestId('tenant-name-input'), 'Acme Corp')
+    await waitFor(() => expect(screen.queryByTestId('name-error')).not.toBeInTheDocument())
   })
 })

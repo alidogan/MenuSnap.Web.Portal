@@ -17,7 +17,7 @@ import { useState } from 'react'
 export default function Tenants() {
   const { t } = useTranslation()
   const toast = useRef<Toast>(null)
-  const { pushModal, closeLast } = useModals()
+  const { pushModal } = useModals()
 
   const [page, setPage] = useState(0)
   const [pageSize] = useState(10)
@@ -30,35 +30,37 @@ export default function Tenants() {
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending
 
-  const handleSubmit = async (values: TenantFormValues, tenant?: TenantDto) => {
-    if (tenant) {
-      await updateMutation.mutateAsync({ id: tenant.id, ...values, logoUrl: values.logoUrl ?? null })
-    } else {
-      await createMutation.mutateAsync({ ...values, logoUrl: values.logoUrl ?? null })
-    }
-    closeLast()
-    toast.current?.show({ severity: 'success', summary: t('common.success') })
-  }
-
   const handleNew = () => {
-    pushModal(
+    let closeModal: () => void
+    const { close } = pushModal(
       <TenantModal
-        onSubmit={(values) => handleSubmit(values)}
+        onSubmit={async (values) => {
+          await createMutation.mutateAsync({ ...values, logoUrl: values.logoUrl ?? null })
+          closeModal()
+          toast.current?.show({ severity: 'success', summary: t('common.success') })
+        }}
         isSubmitting={isSubmitting}
       />,
       { titleTranslationKey: 'tenants.createTitle', width: 480 }
     )
+    closeModal = close
   }
 
   const handleEdit = (tenant: TenantDto) => {
-    pushModal(
+    let closeModal: () => void
+    const { close } = pushModal(
       <TenantModal
-        onSubmit={(values) => handleSubmit(values, tenant)}
+        onSubmit={async (values) => {
+          await updateMutation.mutateAsync({ id: tenant.id, ...values, logoUrl: values.logoUrl ?? null })
+          closeModal()
+          toast.current?.show({ severity: 'success', summary: t('common.success') })
+        }}
         initialValues={tenant}
         isSubmitting={isSubmitting}
       />,
       { titleTranslationKey: 'tenants.editTitle', width: 480 }
     )
+    closeModal = close
   }
 
   const handleDelete = (tenant: TenantDto) => {

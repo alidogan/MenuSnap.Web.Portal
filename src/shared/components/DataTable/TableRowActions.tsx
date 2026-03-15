@@ -16,7 +16,7 @@ const TableRowActions: FC<TableRowActionsProps> = ({ onEdit, onDelete }) => {
           text
           severity="secondary"
           onClick={onEdit}
-          aria-label="Edit"
+          aria-label="Bewerken"
         />
       )}
       {onDelete && (
@@ -26,7 +26,7 @@ const TableRowActions: FC<TableRowActionsProps> = ({ onEdit, onDelete }) => {
           text
           severity="danger"
           onClick={onDelete}
-          aria-label="Delete"
+          aria-label="Verwijderen"
         />
       )}
     </div>

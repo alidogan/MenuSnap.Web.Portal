@@ -23,7 +23,7 @@ export default defineConfig({
   webServer: {
     command: 'bun vite --mode test',
     url: 'http://localhost:5173',
-    reuseExistingServer: false,
+    reuseExistingServer: true,
     timeout: 30_000,
   },
 })
