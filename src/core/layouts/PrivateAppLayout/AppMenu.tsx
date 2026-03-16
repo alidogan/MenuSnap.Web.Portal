@@ -8,7 +8,7 @@ const createMenuModel = (t: (key: string) => string): MenuModel[] => [
   {
     label: t('nav.tenants'),
     icon: 'pi pi-building pi-fw',
-    to: '/tenants',
+    to: '/admin/tenants',
   },
 ]
 

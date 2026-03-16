@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useAuthTokenStore } from '@/core/auth/store'
+import { keycloak } from '@/core/auth/keycloak'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
 
@@ -22,16 +23,17 @@ api.interceptors.response.use(
     const originalRequest = error.config
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
-      const { refreshToken, setToken, clearTokens } = useAuthTokenStore.getState()
-      if (refreshToken) {
-        try {
-          const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken })
-          setToken(data.token)
-          originalRequest.headers.Authorization = `Bearer ${data.token}`
+      const { setToken, clearTokens } = useAuthTokenStore.getState()
+      try {
+        const refreshed = await keycloak.updateToken(30)
+        if (refreshed && keycloak.token) {
+          setToken(keycloak.token)
+          originalRequest.headers.Authorization = `Bearer ${keycloak.token}`
           return api(originalRequest)
-        } catch {
-          clearTokens()
         }
+      } catch {
+        clearTokens()
+        keycloak.login()
       }
     }
     return Promise.reject(error)

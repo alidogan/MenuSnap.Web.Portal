@@ -1,5 +1,6 @@
 import AppBreadcrumb from '@/core/layouts/PrivateAppLayout/AppBreadCrumb'
 import { LayoutContext } from '@/core/layouts/PrivateAppLayout/layoutContext'
+import TopbarProfile from '@/core/layouts/PrivateAppLayout/TopbarProfile'
 import type { AppTopbarRef } from '@/core/layouts/PrivateAppLayout/types'
 import menusnapLogo from '@/assets/menusnap-logo.png'
 import { Link } from '@tanstack/react-router'
@@ -36,6 +37,8 @@ const AppTopbar = ({ ref }: { ref?: React.Ref<AppTopbarRef> }) => {
       <ul className="topbar-menu">
         {tabs.length === 0 && <li className="topbar-menu-empty"></li>}
       </ul>
+
+      <TopbarProfile />
     </div>
   )
 }

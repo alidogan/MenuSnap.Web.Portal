@@ -57,25 +57,25 @@ test.describe('Tenants page', () => {
   })
 
   test('navigates to tenants page and shows list', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await expect(page.getByText('Acme Corp')).toBeVisible()
     await expect(page.getByText('Beta Corp')).toBeVisible()
   })
 
   test('shows New button on tenants page', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await expect(page.getByTestId('new-tenant-button')).toBeVisible()
     await expect(page.getByText('Nieuw')).toBeVisible()
   })
 
   test('clicking New button opens the create modal', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await page.getByTestId('new-tenant-button').click()
     await expect(page.getByText('Tenant aanmaken')).toBeVisible()
   })
 
   test('shows validation errors on empty form submit', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await page.getByTestId('new-tenant-button').click()
     await expect(page.getByText('Tenant aanmaken')).toBeVisible()
     await page.getByTestId('save-tenant-button').click()
@@ -83,7 +83,7 @@ test.describe('Tenants page', () => {
   })
 
   test('creates a new tenant successfully', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await page.getByTestId('new-tenant-button').click()
     await expect(page.getByTestId('tenant-name-input')).toBeVisible()
     await page.getByTestId('tenant-name-input').fill('New Tenant')
@@ -93,7 +93,7 @@ test.describe('Tenants page', () => {
   })
 
   test('opens edit modal with pre-filled data when editing', async ({ page }) => {
-    await page.goto('/tenants')
+    await page.goto('/admin/tenants')
     await expect(page.getByText('Acme Corp')).toBeVisible()
     const editButtons = page.locator('[aria-label="Bewerken"]')
     await editButtons.first().click()
