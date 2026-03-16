@@ -1,7 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { keycloak } from '@/core/auth/keycloak'
+import { useAuthTokenStore } from '@/core/auth/store'
 
 export const Route = createFileRoute('/login')({
+  beforeLoad: () => {
+    const token = useAuthTokenStore.getState().token
+    if (token) {
+      throw redirect({ to: '/admin' })
+    }
+  },
   component: LoginPage,
 })
 

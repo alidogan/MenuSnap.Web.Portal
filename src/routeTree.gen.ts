@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/_admin'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin/index'
 import { Route as AdminAdminTenantsRouteImport } from './routes/_admin/admin/tenants'
 
@@ -21,6 +22,11 @@ const LoginRoute = LoginRouteImport.update({
 } as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/_admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
@@ -35,19 +41,20 @@ const AdminAdminTenantsRoute = AdminAdminTenantsRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AdminRouteWithChildren
+  '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/tenants': typeof AdminAdminTenantsRoute
   '/admin/': typeof AdminAdminIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AdminRouteWithChildren
+  '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/tenants': typeof AdminAdminTenantsRoute
   '/admin': typeof AdminAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/_admin/admin/tenants': typeof AdminAdminTenantsRoute
@@ -60,6 +67,7 @@ export interface FileRouteTypes {
   to: '/' | '/login' | '/admin/tenants' | '/admin'
   id:
     | '__root__'
+    | '/'
     | '/_admin'
     | '/login'
     | '/_admin/admin/tenants'
@@ -67,6 +75,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
@@ -85,6 +94,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin/admin/': {
@@ -117,6 +133,7 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
 }

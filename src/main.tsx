@@ -10,14 +10,7 @@ import 'primeicons/primeicons.css'
 import '@/styles/theme/menusnap/theme.scss'
 import '@/core/layouts/PrivateAppLayout/styles/layout/layout.scss'
 
-initKeycloak().then((authenticated) => {
-  if (authenticated) {
-    const path = window.location.pathname
-    if (path === '/' || path === '/login') {
-      window.location.replace('/admin')
-      return
-    }
-  }
+initKeycloak().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <App />
