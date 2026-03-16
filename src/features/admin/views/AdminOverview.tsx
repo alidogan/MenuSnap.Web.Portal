@@ -36,6 +36,12 @@ export default function AdminOverview() {
         icon: 'pi-users',
         path: '/admin/tenants',
       },
+      {
+        id: 'locations',
+        name: t('locations.title', 'Locaties'),
+        icon: 'pi-map-marker',
+        path: '/admin/locations',
+      },
     ],
     [t]
   )

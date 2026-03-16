@@ -30,6 +30,54 @@
       "actions": "Acties"
     }
   },
+  "locations": {
+    "title": "Locaties",
+    "new": "Nieuw",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "deleteConfirm": "Weet je zeker dat je deze locatie wilt verwijderen?",
+    "search": "Zoeken...",
+    "selectTenant": "Selecteer een tenant",
+    "selectTenantFirst": "Selecteer eerst een tenant",
+    "noLocations": "Geen locaties gevonden",
+    "name": "Naam",
+    "slug": "Slug",
+    "type": "Type",
+    "address": "Adres",
+    "phone": "Telefoon",
+    "description": "Omschrijving",
+    "logo": "Logo",
+    "uploadLogo": "Logo uploaden",
+    "isActive": "Actief",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "createTitle": "Locatie aanmaken",
+    "editTitle": "Locatie bewerken",
+    "validation": {
+      "nameRequired": "Naam is verplicht",
+      "slugRequired": "Slug is verplicht",
+      "slugFormat": "Slug mag alleen kleine letters, cijfers en koppeltekens bevatten",
+      "typeRequired": "Type is verplicht",
+      "phoneFormat": "Ongeldig telefoonnummer"
+    },
+    "columns": {
+      "name": "Naam",
+      "type": "Type",
+      "address": "Adres",
+      "logo": "Logo",
+      "isActive": "Actief",
+      "actions": "Acties"
+    },
+    "types": {
+      "Restaurant": "Restaurant",
+      "Hotel": "Hotel",
+      "BungalowPark": "Bungalowpark",
+      "Resort": "Resort",
+      "Camping": "Camping",
+      "Online": "Online",
+      "Kiosk": "Kiosk"
+    }
+  },
   "common": {
     "yes": "Ja",
     "no": "Nee",
